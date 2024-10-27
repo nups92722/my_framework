@@ -51,18 +51,24 @@
             }
         }
 
-        protected function executer_modele($modeles) {
+        protected function executer_modeles($modeles) {
             $resultats = [];
+            
             foreach ($modeles as $modele) {
-                if (isset($this->table_de_coincidence[$modele])) {
-                    $resultat = $this->table_de_coincidence[$modele]->$modele();
-                    if ($resultat)
+                if (isset($this->table_de_coincidence[$modele["fonction"]])) {
+                    $resultat = $this->table_de_coincidence[$modele["fonction"]]->{$modele["fonction"]}($modele["variables"]);
+                    if ($resultat) {
                         $resultats += $resultat;
+                    }
                 } else {
-                    throw new Exception('le modele : '.$modele.', n\'existe pas ou n\'est pas contenu dans les fichiers modeles charger');
+                    throw new Exception('le modele : '.$modele["fonction"].', n\'existe pas ou n\'est pas contenu dans les fichiers modeles charger');
                 }
             }
             return ($resultats);
+        }
+
+        protected function preparation_modele($fonction, $variables = null) {
+            return (array('fonction' => $fonction, 'variables' => $variables));
         }
 
         protected function creation_vue($fichiers, $donnees) {

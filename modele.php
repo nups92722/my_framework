@@ -10,14 +10,15 @@
                     throw new Exception("fichier de connexion non trouver");
                     
                 }
-                $this->bdd = new PDO($this->nom_bdd, $utilisateur, $mdp);
+                $this->bdd = new PDO(NOM_BDD, BASIC_UTILISATEUR, BASIC_MDP);
                 } catch (PDOException $e) {
                     echo "Erreur : " . $e->getMessage() . "<br/>";
                     die();
             }
         }
 
-        protected function obtenir_bdd($fichier_connexion = DOSSIER_FRAMEWORK."acces_bdd.php") {
+        protected function obtenir_bdd() {
+            $fichier_connexion = DOSSIER_FRAMEWORK."acces_bdd.php";
             if (!isset($this->bdd)) {
                 $this->connexion_bdd($fichier_connexion);
             }
